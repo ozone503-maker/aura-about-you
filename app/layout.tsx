@@ -1,0 +1,8 @@
+import type { Metadata } from "next";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import "./globals.css";
+import AuraSound from "./AuraSound";
+const display=Cormorant_Garamond({variable:"--display",subsets:["latin"],weight:["400","500","600"]});
+const sans=DM_Sans({variable:"--sans",subsets:["latin"]});
+export const metadata:Metadata={title:"Aura Photography, Reiki & Hypnosis in Portland | Aura About You",description:"Explore aura photography, Reiki, hypnosis, and energy clearing with Shana Madsen in Portland, Oregon. In-person, remote, private, and event sessions.",keywords:["aura photography Portland","aura reading Portland Oregon","Reiki Portland","hypnosis Portland","energy clearing Portland","Shana Madsen"],openGraph:{title:"Aura About You | Portland, Oregon",description:"Aura photography, Reiki, hypnosis, and energy clearing with Shana Madsen.",type:"website"}};
+const schema={"@context":"https://schema.org","@type":"HealthAndBeautyBusiness",name:"Aura About You",founder:{"@type":"Person",name:"Shana Madsen",jobTitle:"Reiki Master, Hypnotist, Aura Photographer and Energy Medicine Practitioner"},telephone:"+1-503-310-1135",email:"talkwithshana@gmail.com",address:{"@type":"PostalAddress",streetAddress:"819 SE Taylor Street",addressLocality:"Portland",addressRegion:"OR",postalCode:"97214",addressCountry:"US"},sameAs:["https://www.facebook.com/talkwithshana/","https://www.instagram.com/knottyshaman/"]};export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body className={`${display.variable} ${sans.variable}`}><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema)}}/>{children}<AuraSound/></body></html>}
