@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 const links = [
+  ["Book a Session", "/book", "violet"],
   ["Aura Photography", "/aura-photography", "blue"],
   ["Reiki", "/reiki", "green"],
   ["Hypnosis", "/hypnosis", "indigo"],
