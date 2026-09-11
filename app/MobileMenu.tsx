@@ -4,60 +4,84 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const links = [
-  ["Services", "/#services"],
-  ["About Shana", "/about"],
-  ["Media", "/media"],
-  ["Gallery", "/gallery"],
-  ["Journal", "/journal"],
-  ["Contact", "/#contact"],
-];
+  ["Aura Photography", "/aura-photography", "blue"],
+  ["Reiki", "/reiki", "green"],
+  ["Hypnosis", "/hypnosis", "indigo"],
+  ["Energy Clearing", "/energy-clearing", "red"],
+  ["Private Events", "/private-events", "orange"],
+  ["About Shana", "/about", "violet"],
+  ["Media", "/media", "yellow"],
+  ["Gallery", "/gallery", "yellow"],
+  ["Journal", "/journal", "indigo"],
+  ["Contact", "/#contact", "violet"],
+] as const;
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
-  const [touching, setTouching] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
   const orb = useRef<HTMLDivElement>(null);
-  const closeButton = useRef<HTMLButtonElement>(null);
+  const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (!open) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeButton.current?.focus();
+    const close = (event: PointerEvent) => {
+      if (open && root.current && !root.current.contains(event.target as Node)) setOpen(false);
+    };
     const escape = (event: KeyboardEvent) => event.key === "Escape" && setOpen(false);
+    window.addEventListener("pointerdown", close);
     window.addEventListener("keydown", escape);
     return () => {
-      document.body.style.overflow = previous;
+      window.removeEventListener("pointerdown", close);
       window.removeEventListener("keydown", escape);
     };
   }, [open]);
 
-  function placeOrb(clientX: number, clientY: number) {
-    if (!orb.current) return;
-    orb.current.style.transform = `translate3d(${clientX - 105}px, ${clientY - 125}px, 0)`;
-  }
+  useEffect(() => {
+    const place = (event: TouchEvent) => {
+      const touch = event.touches[0];
+      if (!touch || !orb.current) return;
+      if (fadeTimer.current) clearTimeout(fadeTimer.current);
+      orb.current.style.transform = `translate3d(${touch.clientX - 105}px, ${touch.clientY - 118}px, 0)`;
+      orb.current.classList.add("isVisible");
+    };
+    const fade = () => {
+      if (fadeTimer.current) clearTimeout(fadeTimer.current);
+      fadeTimer.current = setTimeout(() => orb.current?.classList.remove("isVisible"), 180);
+    };
+    window.addEventListener("touchstart", place, { passive: true });
+    window.addEventListener("touchmove", place, { passive: true });
+    window.addEventListener("touchend", fade, { passive: true });
+    window.addEventListener("touchcancel", fade, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", place);
+      window.removeEventListener("touchmove", place);
+      window.removeEventListener("touchend", fade);
+      window.removeEventListener("touchcancel", fade);
+      if (fadeTimer.current) clearTimeout(fadeTimer.current);
+    };
+  }, []);
 
   return (
-    <div className="mobileMenuRoot">
-      <button className="menuTrigger" type="button" onClick={() => setOpen(true)} aria-expanded={open} aria-controls="mobile-menu-panel">
-        <span>Menu</span><i aria-hidden="true">☰</i>
-      </button>
-      {open && <div
-        className={`menuVeil ${touching ? "isTouching" : ""}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Site navigation"
-        onPointerDown={(event) => { placeOrb(event.clientX, event.clientY); setTouching(true); }}
-        onPointerMove={(event) => { if (event.pointerType === "touch" || event.buttons) { placeOrb(event.clientX, event.clientY); setTouching(true); } }}
-        onPointerUp={() => setTouching(false)}
-        onPointerCancel={() => setTouching(false)}
+    <div className="mobileMenuRoot" ref={root}>
+      <div ref={orb} className="pageTouchAura" aria-hidden="true" />
+      <button
+        className="menuTrigger"
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-controls="mobile-menu-panel"
       >
-        <div ref={orb} className="touchAura" aria-hidden="true" />
-        <section className="menuPage" id="mobile-menu-panel">
-          <div className="menuTop"><span>Aura About You</span><button ref={closeButton} type="button" onClick={() => setOpen(false)} aria-label="Close navigation">Close</button></div>
-          <nav aria-label="Mobile navigation">{links.map(([label, href]) => <Link key={label} href={href} onClick={() => setOpen(false)}>{label}</Link>)}</nav>
-          <p>Portland, Oregon<br/>In-person and remote sessions</p>
-        </section>
-      </div>}
+        <span>Menu</span><i aria-hidden="true">{open ? "×" : "☰"}</i>
+      </button>
+      {open && (
+        <nav className="menuDropdown" id="mobile-menu-panel" aria-label="Mobile navigation">
+          {links.map(([label, href, tone]) => (
+            <Link key={label} href={href} onClick={() => setOpen(false)}>
+              <i className={`menuTone toneDot-${tone}`} aria-hidden="true" />
+              <span>{label}</span>
+            </Link>
+          ))}
+        </nav>
+      )}
     </div>
   );
 }
