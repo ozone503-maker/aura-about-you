@@ -138,3 +138,22 @@ main[class^="tone-"] .articleShell aside{border-color:var(--tone-mid);background
 main[class^="tone-"] .faq summary span,main[class^="tone-"] .prose .drop:first-letter{color:var(--tone-mid)}
 main[class^="tone-"] .mediaProof a:last-child{color:white}
 main[class^="tone-"] .quote>b{color:var(--tone-pale)}main[class^="tone-"] .quote cite{color:white}
+
+/* Mobile navigation: a quiet translucent page over the living site. */
+.mobileMenuRoot{display:none}.menuTrigger{display:flex;align-items:center;justify-content:center;gap:.45rem;min-width:72px;min-height:44px;padding:.6rem .8rem;border:1px solid #1c17243d;border-radius:999px;background:transparent;color:var(--ink);cursor:pointer;font:700 .76rem var(--sans)}.menuTrigger i{font-style:normal;font-size:1rem}
+@media(max-width:1000px){.mobileMenuRoot{display:block}.menuVeil{position:fixed;inset:0;z-index:100;overflow:hidden;background:#100b184f;backdrop-filter:blur(3px);isolation:isolate}.menuPage{position:absolute;z-index:2;inset:clamp(.8rem,3vw,1.5rem);display:flex;flex-direction:column;overflow:auto;padding:clamp(1.4rem,5vw,3rem);border:1px solid #ffffff3d;border-radius:1.15rem;background:linear-gradient(145deg,#17101cb8,#17101c88);box-shadow:0 28px 90px #09050ca8;backdrop-filter:blur(20px) saturate(1.08);color:white}.menuTop{display:flex;align-items:center;justify-content:space-between;padding-bottom:1rem;border-bottom:1px solid #ffffff32}.menuTop>span{font:600 1.25rem var(--display)}.menuTop button{min-height:44px;padding:0 .25rem;border:0;background:transparent;color:white;cursor:pointer;font:600 .78rem var(--sans)}.menuPage nav{display:grid;margin:auto 0;padding:1.5rem 0}.menuPage nav a{display:flex;align-items:center;min-height:clamp(3.6rem,9vh,5.25rem);border-bottom:1px solid #ffffff2c;font:500 clamp(2.1rem,8vw,4rem)/1 var(--display);letter-spacing:-.025em}.menuPage nav a:first-child{border-top:1px solid #ffffff2c}.menuPage nav a:active{color:var(--tone-pale)}.menuPage>p{margin:1rem 0 0;color:#ffffffb8;font-size:.72rem;line-height:1.6;letter-spacing:.06em}.touchAura{position:absolute;z-index:1;left:0;top:0;width:210px;height:210px;border-radius:50%;opacity:0;background:radial-gradient(circle,var(--tone-bright) 0%,var(--tone-mid) 34%,transparent 72%);filter:blur(9px);pointer-events:none;transition:opacity .28s ease,transform .09s linear;will-change:transform}.menuVeil.isTouching .touchAura{opacity:.82}}
+@media(max-width:480px){.menuTrigger{min-width:44px;width:44px;padding:0}.menuTrigger span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.menuPage{inset:.65rem;padding:1.25rem;border-radius:.9rem}.menuPage nav a{font-size:clamp(2rem,9.5vw,3.25rem)}}
+@media(prefers-reduced-motion:reduce){.touchAura{transition:opacity .15s ease}}
+
+/* Hero composition repair: keep the moon clear and use the natural sky. */
+.heroVideo{filter:none;object-position:center 47%}
+.heroShade{background:linear-gradient(90deg,rgba(17,10,22,.52) 0%,rgba(17,10,22,.2) 31%,transparent 55%)}
+.videoHero .heroCopy{width:min(620px,46vw);padding:clamp(2.5rem,6vh,5rem) 0 3rem 6vw;justify-content:center}
+.videoHero h1,.videoHero .lead{text-shadow:0 2px 22px rgba(0,0,0,.72)}
+@media(max-width:700px){
+  .heroVideo{object-position:center 50%}
+  .heroShade{background:linear-gradient(180deg,rgba(13,8,17,.24) 0%,rgba(13,8,17,.06) 31%,transparent 47%)}
+  .videoHero .heroCopy{width:100%;min-height:auto;padding:clamp(2rem,5vh,3.25rem) 7vw 2rem;justify-content:flex-start;align-items:center;text-align:center}
+  .videoHero h1{max-width:10ch;margin-bottom:1.1rem;font-size:clamp(3rem,14.2vw,3.9rem);line-height:.88}
+  .videoHero .lead{max-width:30rem;font-size:1rem;line-height:1.42}
+}
