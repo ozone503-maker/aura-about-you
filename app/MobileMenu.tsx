@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 const links = [
   ["Aura Photography", "/aura-photography", "blue"],
@@ -18,9 +19,12 @@ const links = [
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const orb = useRef<HTMLDivElement>(null);
   const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const close = (event: PointerEvent) => {
@@ -40,6 +44,12 @@ export default function MobileMenu() {
       const touch = event.touches[0];
       if (!touch || !orb.current) return;
       if (fadeTimer.current) clearTimeout(fadeTimer.current);
+      const page = document.querySelector("main");
+      if (page) {
+        const pageStyle = getComputedStyle(page);
+        orb.current.style.setProperty("--orb-bright", pageStyle.getPropertyValue("--tone-bright").trim() || "#b439d0");
+        orb.current.style.setProperty("--orb-mid", pageStyle.getPropertyValue("--tone-mid").trim() || "#521ebe");
+      }
       orb.current.style.transform = `translate3d(${touch.clientX - 105}px, ${touch.clientY - 118}px, 0)`;
       orb.current.classList.add("isVisible");
     };
@@ -62,7 +72,7 @@ export default function MobileMenu() {
 
   return (
     <div className="mobileMenuRoot" ref={root}>
-      <div ref={orb} className="pageTouchAura" aria-hidden="true" />
+      {mounted && createPortal(<div ref={orb} className="pageTouchAura" aria-hidden="true" />, document.body)}
       <button
         className="menuTrigger"
         type="button"
