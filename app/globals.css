@@ -157,3 +157,21 @@ main[class^="tone-"] .quote>b{color:var(--tone-pale)}main[class^="tone-"] .quote
   .videoHero h1{max-width:10ch;margin-bottom:1.1rem;font-size:clamp(3rem,14.2vw,3.9rem);line-height:.88}
   .videoHero .lead{max-width:30rem;font-size:1rem;line-height:1.42}
 }
+
+/* Compact spectrum menu and a page-level aura that follows a mobile touch. */
+.pageTouchAura{display:none}
+@media(max-width:1000px){
+  .mobileMenuRoot{display:block;position:relative}
+  .menuDropdown{position:absolute;z-index:120;top:calc(100% + .75rem);right:0;width:min(88vw,34rem);display:grid;grid-template-columns:1fr 1fr;gap:.35rem;padding:.8rem;border:1px solid #ffffff47;border-radius:1rem;background:rgba(25,15,32,.78);box-shadow:0 24px 70px rgba(9,5,12,.42);backdrop-filter:blur(20px) saturate(1.18);-webkit-backdrop-filter:blur(20px) saturate(1.18);color:white}
+  .menuDropdown a{display:flex;align-items:center;gap:.7rem;min-height:3rem;padding:.65rem .7rem;border-radius:.7rem;font:500 1.05rem/1.15 var(--display)}
+  .menuDropdown a:active,.menuDropdown a:focus-visible{background:#ffffff17;outline:none}
+  .menuTone{display:block;width:.72rem;height:.72rem;flex:0 0 .72rem;border-radius:50%;box-shadow:0 0 15px currentColor}
+  .toneDot-red{background:#e01103;color:#e01103}.toneDot-orange{background:#f06b2a;color:#f06b2a}.toneDot-yellow{background:#e4aa13;color:#e4aa13}.toneDot-green{background:#5e9e1b;color:#5e9e1b}.toneDot-blue{background:#1672ed;color:#1672ed}.toneDot-indigo{background:#5734d1;color:#5734d1}.toneDot-violet{background:#be4ad2;color:#be4ad2}
+  .pageTouchAura{display:block;position:fixed;z-index:90;left:0;top:0;width:210px;height:210px;border-radius:50%;opacity:0;background:radial-gradient(circle,rgba(255,255,255,.92) 0 5%,var(--tone-bright,#b439d0) 18%,var(--tone-mid,#521ebe) 42%,transparent 72%);filter:blur(8px);mix-blend-mode:screen;pointer-events:none;transition:opacity .2s ease,transform .07s linear;will-change:transform,opacity}
+  .pageTouchAura.isVisible{opacity:.78}
+}
+@media(max-width:480px){
+  .menuDropdown{position:fixed;top:4.65rem;left:4vw;right:4vw;width:auto;grid-template-columns:1fr 1fr;padding:.7rem}
+  .menuDropdown a{min-height:2.85rem;padding:.55rem;font-size:.98rem}
+}
+@media(prefers-reduced-motion:reduce){.pageTouchAura{transition:opacity .12s ease}}
