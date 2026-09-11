@@ -50,7 +50,7 @@ export default function MobileMenu() {
         orb.current.style.setProperty("--orb-bright", pageStyle.getPropertyValue("--tone-bright").trim() || "#b439d0");
         orb.current.style.setProperty("--orb-mid", pageStyle.getPropertyValue("--tone-mid").trim() || "#521ebe");
       }
-      orb.current.style.transform = `translate3d(${touch.clientX - 105}px, ${touch.clientY - 118}px, 0)`;
+      orb.current.style.transform = `translate3d(${touch.clientX - 140}px, ${touch.clientY - 155}px, 0)`;
       orb.current.classList.add("isVisible");
     };
     const fade = () => {
